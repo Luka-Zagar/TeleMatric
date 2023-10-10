@@ -13,13 +13,13 @@
 #include <TinyGPS++.h>
 #include <SoftwareSerial.h>
 
-SoftwareSerial GPS_SoftSerial(16, 17); // (Rx, Tx)
+SoftwareSerial GPS_SoftSerial(22, 23); // (Rx, Tx)
 TinyGPSPlus gps;
 
 volatile float minutes, seconds;
 volatile int degree, secs, mins;
 
-const int Station_ID = 1;
+const int Station_ID = 11;
 const char* ssid = "7E8329";
 const char* password = "xc9jvceinp";
 
@@ -38,7 +38,7 @@ void loop() {
         connectWiFi();
     }
     
-    smartDelay(4000); // Generate precise delay of 4000ms before GPS.read
+    smartDelay(4900); // Generate precise delay of 4900 -> 5000ms before GPS.read (compensation for code running time f(k) = 0,9806)
     unsigned long start;
     unsigned int year_val;
     double lat_val, lng_val, alt_m_val, setellites_num, course_val, speed_val;
@@ -93,7 +93,7 @@ void loop() {
 
         Serial.print("Date: ");     Serial.print(day_val);          Serial.print("/");    Serial.print(month_val);    Serial.print("/");  Serial.println(year_val);
         Serial.print("Course: ");   Serial.print(course_val, 1);    Serial.println(" °");
-        Serial.print("Speed: ");    Serial.print(speed_val, 2);     Serial.println(" km/h");
+        Serial.print("Speed: ");    Serial.print(speed_val, 2);     Serial.println(" km/h");  Serial.print("\n");
 
         Serial.print("URL: ");      Serial.println(URL);
         Serial.print("Data: ");     Serial.println(postData);
